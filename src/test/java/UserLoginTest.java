@@ -4,7 +4,7 @@ import org.example.pages.RegistrationPage;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import steps.FormSteps;
+import steps.LoginSteps;
 
 public class UserLoginTest {
 
@@ -19,11 +19,12 @@ public class UserLoginTest {
     public void loginButtoninMainPageTest() throws InterruptedException {
         WebDriver driver = driverFactory.getDriver();
         Faker faker= new Faker();
-        FormSteps steps = new FormSteps(driver);
+        LoginSteps steps = new LoginSteps(driver);
         MainPage mainPage = new MainPage(driver);
         mainPage.openPage();
         mainPage.enterButtonclick();
         steps.login(faker.internet().emailAddress(),faker.internet().password());
+        mainPage.clickableButton();
 
     }
 
@@ -34,12 +35,13 @@ public class UserLoginTest {
     public void loginPersonalAccountButtonTest() {
         WebDriver driver = driverFactory.getDriver();
         Faker faker= new Faker();
-        FormSteps steps = new FormSteps(driver);
+        LoginSteps steps = new LoginSteps(driver);
         MainPage mainPage = new MainPage(driver);
 
         mainPage.openPage();
         mainPage.personalAccountButtonclick();
         steps.login(faker.internet().emailAddress(),faker.internet().password());
+        mainPage.clickableButton();
     }
 
 // вход через кнопку регистрации
@@ -49,13 +51,15 @@ public class UserLoginTest {
     public void loginInRegistrationFormTest() {
         WebDriver driver = driverFactory.getDriver();
         Faker faker= new Faker();
-        FormSteps steps = new FormSteps(driver);
+        LoginSteps steps = new LoginSteps(driver);
+        MainPage mainPage = new MainPage(driver);
 
         RegistrationPage registrationPage = new RegistrationPage(driver);
 
         registrationPage.openPageRegistration();
         registrationPage.enterButtonClick();
         steps.login(faker.internet().emailAddress(),faker.internet().password());
+        mainPage.clickableButton();
     }
 
     // вход через восстановление пароля
@@ -65,7 +69,7 @@ public class UserLoginTest {
     public void loginInRecoveryFormTest() {
         WebDriver driver = driverFactory.getDriver();
         Faker faker= new Faker();
-        FormSteps steps = new FormSteps(driver);
+        LoginSteps steps = new LoginSteps(driver);
 
         MainPage mainPage = new MainPage(driver);
         RegistrationPage registrationPage = new RegistrationPage(driver);
@@ -75,6 +79,7 @@ public class UserLoginTest {
         mainPage.recoveryButtonClick();
         registrationPage.enterButtonClick();
         steps.login(faker.internet().emailAddress(),faker.internet().password());
+        mainPage.clickableButton();
     }
 
 }

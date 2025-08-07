@@ -4,11 +4,11 @@ import io.qameta.allure.Step;
 import org.example.pages.RegistrationPage;
 import org.openqa.selenium.WebDriver;
 
-public class FormSteps {
+public class LoginSteps {
     private final WebDriver driver;
     private final RegistrationPage registrationPage;
 
-    public FormSteps(WebDriver driver) {
+    public LoginSteps(WebDriver driver) {
         this.driver = driver;
         this.registrationPage = new RegistrationPage(driver);
     }

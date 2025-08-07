@@ -1,13 +1,19 @@
 package org.example.pages;
 
-import com.github.javafaker.Faker;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
+
+import static org.junit.Assert.assertEquals;
 
 public class RegistrationPage {
 
     private final WebDriver driver;
-    Faker faker = new Faker();
 
     public RegistrationPage(WebDriver driver) {
         this.driver = driver;
@@ -36,10 +42,16 @@ public class RegistrationPage {
 
     //текст ошибки
 
-    private By errorText = By.cssSelector(".input__error .text_type_main-default");
+    private By errorText = By.xpath(".//p[@class='input__error text_type_main-default']");
+
+    // текст Вход на странице залогина
+
+    private By entryForm = By.xpath(".//h2[text()='Вход']");
 
 
     // открытие браузера на странице регистрации
+
+    @Step("Открытие браузера на странице регистрации")
 
     public void openPageRegistration() {
         driver.get("https://stellarburgers.nomoreparties.site/register");
@@ -47,8 +59,8 @@ public class RegistrationPage {
 
     // ввод имени
 
-    public void fieldName(){
-        driver.findElement(nameField).sendKeys(faker.name().fullName());
+    public void fieldName(String name){
+        driver.findElement(nameField).sendKeys(name);
     }
 
     // ввод email
@@ -65,16 +77,37 @@ public class RegistrationPage {
 
     // клик по кнопке Войти на странице регистрации
 
+    @Step("Клик по кнопке Войти на странице регистрации")
+
     public void enterButtonClick(){
         driver.findElement(enterButton).click();
     }
 
-    // клик по кнопке
+    // клик по кнопке Зарегистрироваться/Войти
+
 
     public void buttonClick(){
         driver.findElement(button).click();
     }
 
+    // Получаем актуальный текст
+
+    public void actualErrorText() {
+        String expectedText = "Некорректный пароль";
+        String actualText = driver.findElement(errorText).getText();
+        assertEquals(expectedText, actualText);
+    }
+
+    // Текст вход видим на странице после регистрации
+
+    @Step("Успешная регистрация")
+
+    public void loadingEntryForm(){
+
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+        WebElement header = wait.until(ExpectedConditions.visibilityOfElementLocated(entryForm));
+    }
 
 
 }

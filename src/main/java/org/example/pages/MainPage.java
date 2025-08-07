@@ -1,7 +1,13 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.time.Duration;
 
 public class MainPage {
 
@@ -25,11 +31,15 @@ public class MainPage {
 
     // открытие браузера
 
+    @Step("Открытие браузера на главной странице")
+
     public void openPage() {
         driver.get("https://stellarburgers.nomoreparties.site");
     }
 
     // клик по Войти на главной
+
+    @Step("Клик по кнопке Войти на главной")
 
     public void enterButtonclick(){
         driver.findElement(enterButton).click();
@@ -37,13 +47,26 @@ public class MainPage {
 
     // клик по кнопке Личный кабинет
 
+    @Step("Клик по кнопке Личный кабинет")
+
     public void personalAccountButtonclick(){
         driver.findElement(personalAccountButton).click();
     }
 
     // клик по кнопке восстановления
 
+    @Step("Клик по кнопке восстановления пароля")
+
     public void recoveryButtonClick(){
         driver.findElement(recoveryButton).click();
+    }
+
+    // кликабельность кнопки личный кабинет после логина
+
+    @Step("Успешный залогин")
+
+    public void clickableButton(){
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement button = wait.until(ExpectedConditions.elementToBeClickable(personalAccountButton));
     }
 }
