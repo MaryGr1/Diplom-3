@@ -67,20 +67,20 @@ public class ConstructorPage {
 
     @Step("Видимость раздела Соусы")
 
-    public void sauseSectionIsDisplayed(){
-        driver.findElement(saucesSection).isDisplayed();
+    public boolean sauseSectionIsDisplayed(){
+       return driver.findElement(saucesSection).isDisplayed();
     }
 
     @Step("Видимость раздела Начинки")
 
-    public void fillingSectionIsDisplayed(){
-        driver.findElement(fillingSection).isDisplayed();
+    public boolean fillingSectionIsDisplayed(){
+        return driver.findElement(fillingSection).isDisplayed();
     }
 
     @Step("Видимость раздела Булки")
 
-    public void bunsSectionIsDisplayed(){
-        driver.findElement(bunsSection).isDisplayed();
+    public boolean bunsSectionIsDisplayed(){
+        return driver.findElement(bunsSection).isDisplayed();
     }
 
 }

@@ -1,9 +1,12 @@
 import com.github.javafaker.Faker;
 import org.example.pages.RegistrationPage;
+import org.example.pages.User;
+import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import steps.RegistrationSteps;
+import steps.UserSteps;
 
 import static org.junit.Assert.assertEquals;
 
@@ -40,6 +43,17 @@ public class UserRegisterTest {
        registrationPage.actualErrorText();
 
 
+    }
+
+    @After
+    public void deleteUser() {
+        UserSteps userSteps = new UserSteps();
+        User user = new User();
+        try {
+            userSteps.userDeleteAfterLogin(user);
+        } catch (Exception e) {
+            System.err.println("Ошибка при удалении пользователя: " + e.getMessage());
+        }
     }
 
 
