@@ -19,12 +19,12 @@ public class PointerTest {
     public void sauseTabIsActiveTest(){
         WebDriver driver = driverFactory.getDriver();
         ConstructorPage constructorPage = new ConstructorPage(driver);
-
         MainPage mainPage = new MainPage(driver);
 
         mainPage.openPage();
         constructorPage.sausePointerCkick();
-        assertTrue("Секция 'Соусы' не отображается", constructorPage.sauseSectionIsDisplayed());
+        String className = constructorPage.getClassSaucesSection();
+        assertTrue("Раздел 'Соусы' не отображается", className.contains("tab_tab_type_current__2BEPc"));
     }
 
     // переход к начинкам
@@ -37,7 +37,8 @@ public class PointerTest {
 
         mainPage.openPage();
         constructorPage.fillingPointerCkick();
-        assertTrue("Секция 'Начинки' не отображается",constructorPage.fillingSectionIsDisplayed());
+        String className = constructorPage.getClassFillingsSection();
+        assertTrue("Раздел 'Начинки' не отображается", className.contains("tab_tab_type_current__2BEPc"));
     }
 
     // переход к булкам
@@ -51,9 +52,9 @@ public class PointerTest {
         mainPage.openPage();
         constructorPage.sausePointerCkick();
         constructorPage.bunsPointerCkick();
-        assertTrue("Секция 'Булки' не отображается", constructorPage.bunsSectionIsDisplayed());
+        String className = constructorPage.getClassBunsSection();
+        assertTrue("Раздел 'Булки' не отображается", className.contains("tab_tab_type_current__2BEPc"));
     }
-
 
 
 }

@@ -34,15 +34,15 @@ public class ConstructorPage {
 
     // раздел Соусы заголовок
 
-    private By saucesSection = By.xpath("//h2[text()='Соусы']");
+    private By saucesSection = By.xpath("//span[text()='Соусы']");
 
     // раздел Начинки заголовок
 
-    private By fillingSection = By.xpath("//h2[text()='Начинки']");
+    private By fillingSection = By.xpath("//span[text()='Начинки']");
 
     // раздел Булки заголовок
 
-    private By bunsSection = By.xpath("//h2[text()='Булки']");
+    private By bunsSection = By.xpath("//span[text()='Булки']");
 
 
     // клик по кнопке Булки
@@ -65,22 +65,20 @@ public class ConstructorPage {
         driver.findElement(fillingPointer).click();
     }
 
-    @Step("Видимость раздела Соусы")
 
-    public boolean sauseSectionIsDisplayed(){
-       return driver.findElement(saucesSection).isDisplayed();
+    @Step("Получение class когда выбран раздел Булки")
+    public String getClassBunsSection() {
+        return driver.findElement(bunsPointer).getAttribute("class");
     }
 
-    @Step("Видимость раздела Начинки")
-
-    public boolean fillingSectionIsDisplayed(){
-        return driver.findElement(fillingSection).isDisplayed();
+    @Step("Получение class когда выбран раздел Соусы")
+    public String getClassSaucesSection() {
+        return driver.findElement(saucePointer).getAttribute("class");
     }
 
-    @Step("Видимость раздела Булки")
-
-    public boolean bunsSectionIsDisplayed(){
-        return driver.findElement(bunsSection).isDisplayed();
+    @Step("Получение class когда выбран раздел Начинки")
+    public String getClassFillingsSection() {
+        return driver.findElement(fillingPointer).getAttribute("class");
     }
 
 }

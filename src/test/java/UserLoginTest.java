@@ -1,19 +1,40 @@
 import com.github.javafaker.Faker;
+import io.restassured.response.ValidatableResponse;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.example.pages.MainPage;
 import org.example.pages.RegistrationPage;
 import org.example.pages.User;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import steps.LoginSteps;
-import steps.RegistrationSteps;
 import steps.UserSteps;
 
-public class UserLoginTest {
+public class UserLoginTest extends BaseTest {
 
     @Rule
     public DriverFactory driverFactory = new DriverFactory();
+    private User user;
+    UserSteps userSteps;
+    String accessToken;
+
+
+    @Before
+
+    public void setUp(){
+        super.setUp();
+        Faker faker = new Faker();
+        user = new User();
+        user.setEmail(faker.internet().emailAddress());
+        user.setPassword(RandomStringUtils.randomAlphabetic(12));
+        user.setName(RandomStringUtils.randomAlphabetic(12));
+        userSteps = new UserSteps(reqSpec);
+        ValidatableResponse response = userSteps
+                .createUser(user);
+        accessToken = response.extract().path("accessToken");
+    }
 
 
 // логин по войти на главной
@@ -22,17 +43,13 @@ public class UserLoginTest {
 
     public void loginButtoninMainPageTest() throws InterruptedException {
         WebDriver driver = driverFactory.getDriver();
-        Faker faker= new Faker();
         LoginSteps steps = new LoginSteps(driver);
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        RegistrationSteps registr = new RegistrationSteps(driver);
         MainPage mainPage = new MainPage(driver);
-        registrationPage.openPageRegistration();
-        registr.registration(faker.name().fullName(), faker.internet().emailAddress(),faker.internet().password());
+
         mainPage.openPage();
         mainPage.enterButtonclick();
 
-        steps.login(faker.internet().emailAddress(),faker.internet().password());
+        steps.login(user.getEmail(),user.getPassword());
         mainPage.clickableButton();
 
     }
@@ -43,16 +60,12 @@ public class UserLoginTest {
 
     public void loginPersonalAccountButtonTest() {
         WebDriver driver = driverFactory.getDriver();
-        Faker faker= new Faker();
         LoginSteps steps = new LoginSteps(driver);
         MainPage mainPage = new MainPage(driver);
-        RegistrationPage registrationPage = new RegistrationPage(driver);
-        RegistrationSteps registr = new RegistrationSteps(driver);
-        registrationPage.openPageRegistration();
-        registr.registration(faker.name().fullName(), faker.internet().emailAddress(),faker.internet().password());
+
         mainPage.openPage();
         mainPage.personalAccountButtonclick();
-        steps.login(faker.internet().emailAddress(),faker.internet().password());
+        steps.login(user.getEmail(),user.getPassword());
         mainPage.clickableButton();
     }
 
@@ -62,17 +75,13 @@ public class UserLoginTest {
 
     public void loginInRegistrationFormTest() {
         WebDriver driver = driverFactory.getDriver();
-        Faker faker= new Faker();
         LoginSteps steps = new LoginSteps(driver);
         MainPage mainPage = new MainPage(driver);
-        RegistrationSteps registr = new RegistrationSteps(driver);
 
         RegistrationPage registrationPage = new RegistrationPage(driver);
         registrationPage.openPageRegistration();
-        registr.registration(faker.name().fullName(), faker.internet().emailAddress(),faker.internet().password());
-        registrationPage.openPageRegistration();
         registrationPage.enterButtonClick();
-        steps.login(faker.internet().emailAddress(),faker.internet().password());
+        steps.login(user.getEmail(),user.getPassword());
         mainPage.clickableButton();
     }
 
@@ -82,29 +91,22 @@ public class UserLoginTest {
 
     public void loginInRecoveryFormTest() {
         WebDriver driver = driverFactory.getDriver();
-        Faker faker= new Faker();
         LoginSteps steps = new LoginSteps(driver);
-        RegistrationSteps registr = new RegistrationSteps(driver);
         MainPage mainPage = new MainPage(driver);
         RegistrationPage registrationPage = new RegistrationPage(driver);
-        registrationPage.openPageRegistration();
-        registr.registration(faker.name().fullName(), faker.internet().emailAddress(),faker.internet().password());
         mainPage.openPage();
         mainPage.personalAccountButtonclick();
         mainPage.recoveryButtonClick();
         registrationPage.enterButtonClick();
-        steps.login(faker.internet().emailAddress(),faker.internet().password());
+        steps.login(user.getEmail(),user.getPassword());
         mainPage.clickableButton();
     }
 
+
     @After
     public void deleteUser() {
-        UserSteps userSteps = new UserSteps();
-        User user = new User();
-        try {
-            userSteps.userDeleteAfterLogin(user);
-        } catch (Exception e) {
-            System.err.println("Ошибка при удалении пользователя: " + e.getMessage());
+        if(accessToken != null) {
+            userSteps.deleteUser(accessToken);
         }
     }
 

@@ -59,17 +59,23 @@ public class RegistrationPage {
 
     // ввод имени
 
+    @Step("Ввод имени пользователя при регистрации")
+
     public void fieldName(String name){
         driver.findElement(nameField).sendKeys(name);
     }
 
     // ввод email
 
+    @Step("Ввод email пользователя при регистрации")
+
     public void fieldEmail(String email){
         driver.findElement(emailField).sendKeys(email);
     }
 
     // ввод пароля
+
+    @Step("Ввод пароля пользователя при регистрации")
 
     public void fieldPassword(String password){
         driver.findElement(passwordField).sendKeys(password);
@@ -85,6 +91,7 @@ public class RegistrationPage {
 
     // клик по кнопке Зарегистрироваться/Войти
 
+    @Step("Клик по кнопке Зарегистрироваться/Войти")
 
     public void buttonClick(){
         driver.findElement(button).click();
